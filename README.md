@@ -12,8 +12,10 @@ Proyecto de práctica de QA Automation que cubre, de principio a fin, el flujo d
 ## Estructura del proyecto
 
 ```
-├── main.py     # Page Object (UrbanRoutesPage) + clase de test (TestUrbanRoutes)
 ├── data.py     # Datos de prueba: URL, direcciones, teléfono, tarjeta, mensaje, imagen de auto
+├── helper.py   # Función auxiliar (no modificable) para recuperar el código SMS desde los logs de red
+├── main.py     # Clase de test (TestUrbanRoutes), un método por paso del flujo
+├── pages.py    # Page Object (UrbanRoutesPage): locators y acciones sobre la página
 └── README.md
 ```
 
@@ -28,9 +30,9 @@ Proyecto de práctica de QA Automation que cubre, de principio a fin, el flujo d
 ```bash
 python -m venv .venv
 .venv\Scripts\activate          # Windows
+source .venv/bin/activate       # macOS/Linux
 
 pip install selenium pytest
-pip install pytest
 ```
 
 ## Ejecución
@@ -51,13 +53,16 @@ pytest main.py::TestUrbanRoutes::test_order_taxi_with_all_options -v
 
 El test es **end-to-end**: todos los pasos se ejecutan en un solo método porque cada uno depende del estado dejado por el anterior (no se puede, por ejemplo, probar el pago sin haber reservado antes).
 
-| Paso | Qué hace | Qué comprueba |
-|---|---|---|
-| 1. Ruta | Escribe dirección de origen y destino | Los campos reflejan el valor escrito |
-| 2. Reserva y teléfono | Pide el taxi, selecciona tarifa Comfort, ingresa teléfono, recupera y confirma el código SMS | — (habilita el resto del flujo) |
-| 3. Pago | Agrega una tarjeta como método de pago | La lista de métodos de pago aumenta en 1 |
-| 4. Extras | Agrega comentario para el chofer, activa el switch de "Manta y pañuelos", incrementa el contador de Helado a 2 | El comentario coincide con el escrito; el contador queda en `2` |
-| 5. Conductor (opcional) | Confirma el pedido y espera a que se asigne un conductor | El nombre del conductor, la placa y la imagen del auto no están vacíos / coinciden con lo esperado |
+| Test                                | Qué hace                                                     | Qué comprueba                                                                                      |
+|-------------------------------------|--------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| 1. test_set_routes                  | Abre la app y escribe dirección de origen y destino          | Los campos reflejan el valor escrito                                                               |
+| 2. test_select_comfort_plan         | Pide el taxi y selecciona la tarifa "Comfort"                | La tarjeta de Comfort queda marcada como activa (clase active)                                     |
+| 3. test_fill_phone_number           | Ingresa el teléfono, recupera y confirma el código SMS       | El campo de teléfono conserva el valor esperado                                                    |
+| 4. test_fill_card                   | Agrega una tarjeta como método de pago                       | La lista de métodos de pago aumenta en 1                                                           |
+| 5. test_comment_for_driver          | Escribe un comentario para el chofer                         | El comentario coincide con el escrito                                                              |
+| 6. test_order_blanket_handkerchiefs | Activa el switch de "Manta y pañuelos"                       | El checkbox real queda marcado (checked)                                                           |
+| 7. test_order_two_ice_creams        | 	Incrementa el contador de Helado a 2                         | El contador queda en 2                                                                             |
+| 8. test_car_search_modal_appears    | 	Confirma el pedido y espera a que se asigne un conductor     | El nombre del conductor, la placa y la imagen del auto no están vacíos / coinciden con lo esperado |
 
 ## Notas de diseño
 
