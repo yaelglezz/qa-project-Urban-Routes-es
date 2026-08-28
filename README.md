@@ -46,12 +46,10 @@ pytest -v
 Para correr solo este test específico:
 
 ```bash
-pytest main.py::TestUrbanRoutes::test_order_taxi_with_all_options -v
+pytest main.py::TestUrbanRoutes::test_fill_card -v
 ```
 
-## Qué cubre el test (`test_order_taxi_with_all_options`)
-
-El test es **end-to-end**: todos los pasos se ejecutan en un solo método porque cada uno depende del estado dejado por el anterior (no se puede, por ejemplo, probar el pago sin haber reservado antes).
+## Qué cubre el test 
 
 | Test                                | Qué hace                                                     | Qué comprueba                                                                                      |
 |-------------------------------------|--------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
