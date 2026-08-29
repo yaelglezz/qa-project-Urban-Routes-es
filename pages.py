@@ -20,8 +20,8 @@ class UrbanRoutesPage:
     # --- Locators: paso 3, confirmación de teléfono ---
     phone_button = (By.XPATH, './/div[text()="Número de teléfono"]') # Abre el campo de teléfono
     phone_field = (By.ID, 'phone') # Input real del número de teléfono
-    button_sig = (By.XPATH, './/button[text()="Siguiente"]')  # Botón "Siguiente" tras ingresar el teléfono
-    code_SMS_field = (By.ID, 'code') # Input del código SMS recibido
+    next_button = (By.XPATH, './/button[text()="Siguiente"]')  # Botón "Siguiente" tras ingresar el teléfono
+    sms_code_field = (By.ID, 'code') # Input del código SMS recibido
     code_confirm_button = (By.XPATH, './/button[text()="Confirmar"]') # Confirma el código SMS
 
     # --- Locators: paso 4, método de pago ---
@@ -30,7 +30,7 @@ class UrbanRoutesPage:
     card_number = (By.ID, 'number') # Input del número de tarjeta
     card_code = (By.XPATH, './/div[@class="card-code-input"]/input') # Input del código de seguridad (CVV)
     button_add_card = (By.XPATH, './/button[text()="Agregar"]') # Confirma el alta de la tarjeta
-    count_method_pay = (By.CLASS_NAME, 'pp-row')
+    payment_method_rows = (By.CLASS_NAME, 'pp-row')
     button_close_pay = (By.XPATH, './/div[@class="payment-picker open"]//div[@class="section active"]//button[@class="close-button section-close"]') # Cierra el panel de pago; acotado al panel "open"/"active" para evitar ambigüedad con otros paneles
 
     # --- Locators: paso 5, 6, 7 y 8 extras del viaje ---
@@ -105,13 +105,13 @@ class UrbanRoutesPage:
     def get_phone_field(self):
         return self.driver.find_element(*self.phone_field).get_property('value')
 
-    def click_button_sig(self):
+    def click_next_button(self):
         # Avanza al siguiente paso tras ingresar el teléfono
-        self.driver.find_element(*self.button_sig).click()
+        self.driver.find_element(*self.next_button).click()
 
     def confirm_phone_code(self, code):
         # Escribe el código SMS recibido y confirma
-        self.driver.find_element(*self.code_SMS_field).send_keys(code)
+        self.driver.find_element(*self.sms_code_field).send_keys(code)
         self.driver.find_element(*self.code_confirm_button).click()
 
 
@@ -137,10 +137,10 @@ class UrbanRoutesPage:
         # Confirma el alta de la tarjeta
         self.driver.find_element(*self.button_add_card).click()
 
-    def get_method_pay_count(self):
+    def get_payment_methods_count(self):
         # Cuenta cuántos métodos de pago (pp-row) hay listados; se usa antes/después
         # de agregar la tarjeta para confirmar que efectivamente se agregó uno nuevo
-        return len(self.driver.find_elements(*self.count_method_pay))
+        return len(self.driver.find_elements(*self.payment_method_rows))
 
     def click_button_close_pay(self):
         # Cierra el panel de pago
