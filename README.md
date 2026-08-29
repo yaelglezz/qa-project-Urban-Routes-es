@@ -48,7 +48,12 @@ Para correr solo este test específico:
 ```bash
 pytest main.py::TestUrbanRoutes::test_fill_card -v
 ```
+## Qué cubre la suite
 
+Las pruebas cubren el flujo end-to-end de pedido de un taxi y están **encadenadas**:
+se ejecutan en orden sobre una única sesión de navegador que abre `setup_class`, y
+cada una avanza sobre el estado que dejó la anterior (no se puede, por ejemplo,
+probar el pago sin haber reservado antes).
 ## Qué cubre el test 
 
 | Test                                | Qué hace                                                     | Qué comprueba                                                                                      |
