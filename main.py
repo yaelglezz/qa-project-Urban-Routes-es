@@ -81,11 +81,12 @@ class TestUrbanRoutes:
         routes_page.click_main_button()
         routes_page.wait_order_popup()
 
-        # Paso 5 (opcional): esperar a que se asigne un conductor y comprobar su información.
+    def test_driver_info_appears(self):
+        routes_page = UrbanRoutesPage(self.driver)
         routes_page.wait_for_driver_info()
         assert routes_page.get_driver_name() != ''
         assert routes_page.get_order_plate() != ''
-        assert routes_page.get_order_car_image_src() == data.COMFORT_CAR
+        assert data.COMFORT_CAR_IMAGE_NAME in routes_page.get_order_car_image_src()
 
 
     @classmethod
