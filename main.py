@@ -38,7 +38,7 @@ class TestUrbanRoutes:
     def test_fill_phone_number(self):
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.click_button_phone()
-        routes_page.set_phone_field()
+        routes_page.set_phone_field(data.PHONE_NUMBER)
         routes_page.click_button_sig()
         code = retrieve_phone_code(driver=self.driver) # obtiene el código real desde los logs de red
         routes_page.confirm_phone_code(code)
@@ -50,8 +50,8 @@ class TestUrbanRoutes:
         routes_page.click_button_payment_method()
         count_before = routes_page.get_method_pay_count()
         routes_page.click_pay_card()
-        routes_page.set_card_number()
-        routes_page.set_card_code()
+        routes_page.set_card_number(data.CARD_NUMBER)
+        routes_page.set_card_code(data.CARD_CODE)
         routes_page.click_button_add_card()
         count_after = routes_page.get_method_pay_count()
         assert count_after == count_before + 1
@@ -60,7 +60,7 @@ class TestUrbanRoutes:
         # Paso 5: comentario
     def test_comment_for_driver(self):
         routes_page = UrbanRoutesPage(self.driver)
-        routes_page.set_comment_field()
+        routes_page.set_comment_field(data.MESSAGE_FOR_DRIVER)
         assert routes_page.get_comment_field() == data.MESSAGE_FOR_DRIVER
 
         # Paso 6: switch manta y pañuelos
@@ -72,7 +72,7 @@ class TestUrbanRoutes:
         # Paso 7: helados
     def test_order_two_ice_creams(self):
         routes_page = UrbanRoutesPage(self.driver)
-        routes_page.add_ice_cream()
+        routes_page.add_ice_cream(2)
         assert routes_page.get_ice_cream_count() == '2'
 
         # Paso 8: espera del conductor
