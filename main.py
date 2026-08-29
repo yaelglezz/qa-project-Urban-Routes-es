@@ -39,7 +39,7 @@ class TestUrbanRoutes:
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.click_button_phone()
         routes_page.set_phone_field(data.PHONE_NUMBER)
-        routes_page.click_button_sig()
+        routes_page.click_next_button()
         code = retrieve_phone_code(driver=self.driver) # obtiene el código real desde los logs de red
         routes_page.confirm_phone_code(code)
         assert routes_page.get_phone_field() == data.PHONE_NUMBER
@@ -48,12 +48,12 @@ class TestUrbanRoutes:
     def test_fill_card(self):
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.click_button_payment_method()
-        count_before = routes_page.get_method_pay_count()
+        count_before = routes_page.get_payment_methods_count()
         routes_page.click_pay_card()
         routes_page.set_card_number(data.CARD_NUMBER)
         routes_page.set_card_code(data.CARD_CODE)
         routes_page.click_button_add_card()
-        count_after = routes_page.get_method_pay_count()
+        count_after = routes_page.get_payment_methods_count()
         assert count_after == count_before + 1
         routes_page.click_button_close_pay()
 
