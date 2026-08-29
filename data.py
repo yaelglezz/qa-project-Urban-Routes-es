@@ -5,5 +5,4 @@ PHONE_NUMBER= '+1 123 123 12 12'
 CARD_NUMBER = '1234 5678 9100'
 CARD_CODE = '111'
 MESSAGE_FOR_DRIVER = 'Muéstrame el camino al museo'
-BASE_URL = URBAN_ROUTES_URL.split('?')[0]
-COMFORT_CAR = f'{BASE_URL}/static/media/kids.075fd8d4.svg'
+COMFORT_CAR_IMAGE_NAME = 'kids'
