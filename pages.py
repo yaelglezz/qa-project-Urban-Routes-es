@@ -98,9 +98,9 @@ class UrbanRoutesPage:
         # Abre el campo de "Número de teléfono"
         self.wait.until(EC.element_to_be_clickable(self.phone_button)).click()
 
-    def set_phone_field(self):
+    def set_phone_field(self,phone_number):
         # Espera a que el input real de teléfono sea visible (aparece tras el clic anterior) y escribe el número
-        self.wait.until(EC.visibility_of_element_located(self.phone_field)).send_keys(data.PHONE_NUMBER)
+        self.wait.until(EC.visibility_of_element_located(self.phone_field)).send_keys(phone_number)
 
     def get_phone_field(self):
         return self.driver.find_element(*self.phone_field).get_property('value')
@@ -125,13 +125,13 @@ class UrbanRoutesPage:
         self.wait.until(EC.visibility_of_element_located(self.pay_card))
         self.driver.find_element(*self.pay_card).click()
 
-    def set_card_number(self):
+    def set_card_number(self,card_number):
         # Escribe el número de tarjeta
-        self.driver.find_element(*self.card_number).send_keys(data.CARD_NUMBER)
+        self.driver.find_element(*self.card_number).send_keys(card_number)
 
-    def set_card_code(self):
+    def set_card_code(self, card_code):
         # Escribe el código de seguridad (CVV) y presiona Tab para simular que el usuario sale del campo
-        self.driver.find_element(*self.card_code).send_keys(data.CARD_CODE,Keys.TAB)
+        self.driver.find_element(*self.card_code).send_keys(card_code,Keys.TAB)
 
     def click_button_add_card(self):
         # Confirma el alta de la tarjeta
@@ -148,9 +148,9 @@ class UrbanRoutesPage:
 
 
     # ----- Paso 4: extras del viaje -----
-    def set_comment_field(self):
+    def set_comment_field(self, message_for_driver):
         # Escribe el comentario dirigido al chofer
-        self.driver.find_element(*self.comment_field).send_keys(data.MESSAGE_FOR_DRIVER)
+        self.driver.find_element(*self.comment_field).send_keys(message_for_driver)
 
     def get_comment_field(self):
         # Lee el valor actual del campo de comentario (para comprobar que se escribió bien)
@@ -163,10 +163,10 @@ class UrbanRoutesPage:
     def get_blanket_handkerchiefs_checked(self):
         return self.driver.find_element(*self.switch_blanket_handkerchiefs_active).get_property('checked')
 
-    def add_ice_cream(self):
-        # Hace clic dos veces en el botón "+" del contador de Helado, para que el contador quede en 2.
-        self.driver.find_element(*self.add_ice_cream_button).click()
-        self.driver.find_element(*self.add_ice_cream_button).click()
+    def add_ice_cream(self, amount):
+        # Hace clic en el botón "+" del contador de Helado, para que el contador quede en 2.
+        for _ in range(amount):
+            self.driver.find_element(*self.add_ice_cream_button).click()
 
     def get_ice_cream_count(self):
         # Lee el valor actual del contador de Helado, para comprobar que quedó en 2
