@@ -199,5 +199,7 @@ class UrbanRoutesPage:
 
     def get_order_car_image_src(self):
         # Lee la URL de la imagen del modelo de auto asignado
-        return self.driver.find_element(*self.order_car_image).get_attribute('src')
+        image_src = routes_page.get_order_car_image_src()
+        assert image_src != ''
+        assert data.COMFORT_CAR_IMAGE_NAME in image_src
 
